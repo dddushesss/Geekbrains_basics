@@ -24,7 +24,7 @@ public class InteractTo : MonoBehaviour
     {
         if ((!IsToTake) && Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit))
         {
-            if (hit.collider.tag.Equals("Iteam"))
+            if (hit.collider.GetComponent<IteamConteiner>())
             {
                 IsToHideTooltip = true;
                 _iteam = hit.collider.GetComponent<IteamConteiner>().iteam;
@@ -43,7 +43,7 @@ public class InteractTo : MonoBehaviour
                     Tooltip.HideTooltip_Static();
                 }
             }
-            else if ((!isToTalk) && hit.collider.tag.Equals("Talk"))
+            else if ((!isToTalk) && hit.collider.GetComponent<DialogeBegin>())
             {
                 IsToHideTooltip = true;
                 targetToTalk = hit.collider.gameObject;
