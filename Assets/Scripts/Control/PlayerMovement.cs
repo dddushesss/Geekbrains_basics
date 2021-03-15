@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
 
     public NavMeshAgent _navMeshAgent;
     private Animator _animator;
+    public GameObject Tutorial;
 
     private void Start()
     {
@@ -30,6 +31,11 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Tutorial.SetActive(!Tutorial.activeSelf);
+        }
+        
         if (_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
         {
             _animator.SetBool("IsWalking", false);

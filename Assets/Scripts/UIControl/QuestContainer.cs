@@ -11,6 +11,6 @@ public class QuestContainer : MonoBehaviour
 
     private void Start()
     {
-        GetComponentInChildren<Text>().text = $"{Quest.QuestText} : {Quest.ExpValue}";
+        GetComponentInChildren<Text>().text = $"{Quest.QuestText} - Опыта: {Quest.ExpValue}";
     }
 }

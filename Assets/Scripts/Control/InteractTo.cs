@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -62,7 +63,20 @@ public class InteractTo : MonoBehaviour
                     Tooltip.HideTooltip_Static();
                 }
             }
-            else if(IsToHideTooltip)
+            else if (hit.collider.GetComponent<DoorHandler>())
+            {
+                IsToHideTooltip = true;
+                Tooltip.ShowTooltip_Static(hit.transform.GetComponent<DoorHandler>().isOpen
+                    ? "Закрыть дверь"
+                    : "Открыть дверь");
+                if (Input.GetMouseButtonDown(0))
+                {
+                    hit.transform.GetComponent<DoorHandler>().enabled = true;
+                    hit.transform.GetComponent<DoorHandler>().Invert(transform);
+                    Tooltip.HideTooltip_Static();
+                }
+            }
+            else if (IsToHideTooltip)
             {
                 Tooltip.HideTooltip_Static();
                 IsToHideTooltip = false;

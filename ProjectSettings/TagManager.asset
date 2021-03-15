@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Talk
   - Iteam
+  - Door
   layers:
   - Default
   - TransparentFX

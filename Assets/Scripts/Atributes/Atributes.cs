@@ -22,7 +22,7 @@ public class Atributes : MonoBehaviour
             prefab.GetComponentInChildren<PlayerAtributeUI>().Atribute = atribute;
             atribute.CharacterAtributes = this;
         }
-        atributeUICanvas.GetComponentInChildren<SkillPoints>().ChangeSkillPointsValue(StartSkillPoints);
+        atributeUICanvas.transform.GetChild(0).GetComponent<SkillPoints>().ChangeSkillPointsValue(StartSkillPoints);
         CurentHealth = PlayerAtributes.Find(x => x is HealthAtribute).value;
         atributeUICanvas.SetActive(false);
     }
