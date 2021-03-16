@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -19,10 +20,10 @@ public class Atributes : MonoBehaviour
         foreach (var atribute in PlayerAtributes)
         {
             var prefab = Instantiate(atributeUIPrefab, atributeUICanvas.transform.GetChild(0));
-            prefab.GetComponentInChildren<PlayerAtributeUI>().Atribute = atribute;
+            prefab.GetComponentInChildren<PlayerAtributeUI>().atribute = atribute;
             atribute.CharacterAtributes = this;
         }
-        atributeUICanvas.transform.GetChild(0).GetComponent<SkillPoints>().ChangeSkillPointsValue(StartSkillPoints);
+        atributeUICanvas.transform.GetChild(0).GetChild(1).GetComponent<SkillPoints>().ChangeSkillPointsValue(StartSkillPoints);
         CurentHealth = PlayerAtributes.Find(x => x is HealthAtribute).value;
         atributeUICanvas.SetActive(false);
     }

@@ -131,16 +131,21 @@ namespace Dialoge_Editor.Editor.Graph
         {
             AddElement(CreateNode(nodeName, position));
         }
-        
+
         //функция для добавление ноды на graphView и описание интерфейса ноды
-        public void CreateNewIfNode(string functionName, ScriptableObject Quest, Vector2 position)
+        public void CreateNewGetQuestNode(string functionName, ScriptableObject Quest, Vector2 position)
         {
-            AddElement(CreateIfNode(functionName, Quest, position));
+            AddElement(CreateGetQuestNode(functionName, Quest, position));
         }
-        
-        public IfNode CreateIfNode(string functionName, ScriptableObject Quest, Vector2 position)
+
+        public void CreateNewCheckQuestNode(string functionName, ScriptableObject Quest, Vector2 position)
         {
-            var tempDialogueNode = new IfNode()
+            AddElement(CreateCheckQuestNode(functionName, Quest, position));
+        }
+
+        public GetQuestNode CreateGetQuestNode(string functionName, ScriptableObject Quest, Vector2 position)
+        {
+            var tempDialogueNode = new GetQuestNode()
             {
                 QuestSO = Quest,
                 title = "Quest node",
@@ -151,36 +156,85 @@ namespace Dialoge_Editor.Editor.Graph
             var inputPort = GetPortInstance(tempDialogueNode, Direction.Input, Port.Capacity.Multi);
             inputPort.portName = "Input";
             tempDialogueNode.inputContainer.Add(inputPort);
-            tempDialogueNode.RefreshExpandedState();
-            tempDialogueNode.RefreshPorts();
+            var outputPort = GetPortInstance(tempDialogueNode, Direction.Output);
+            outputPort.portName = "Output";
+            tempDialogueNode.outputContainer.Add(outputPort);
+
             tempDialogueNode.SetPosition(new Rect(position,
                 DefaultNodeSize)); //To-Do: implement screen center instantiation positioning
 
             var textField = new TextField("") {multiline = true};
-            textField.RegisterValueChangedCallback(evt =>
-            {
-                tempDialogueNode.Function = evt.newValue;
-            });
+            textField.RegisterValueChangedCallback(evt => { tempDialogueNode.Function = evt.newValue; });
             textField.SetValueWithoutNotify(tempDialogueNode.Function);
             tempDialogueNode.mainContainer.Add(textField);
-            
-            
-            
+
+
             var gameobjectField = new ObjectField()
             {
                 objectType = typeof(ScriptableObject)
             };
-            
+
             gameobjectField.RegisterValueChangedCallback(evt =>
             {
                 tempDialogueNode.QuestSO = evt.newValue as ScriptableObject;
             });
             gameobjectField.SetValueWithoutNotify(Quest);
             tempDialogueNode.contentContainer.Add(gameobjectField);
-            AddChoicePort(tempDialogueNode, "Output");
+            tempDialogueNode.RefreshExpandedState();
+            tempDialogueNode.RefreshPorts();
             return tempDialogueNode;
         }
-        
+
+        public CheckQuestNode CreateCheckQuestNode(string functionName, ScriptableObject Quest, Vector2 position)
+        {
+            var tempDialogueNode = new CheckQuestNode()
+            {
+                QuestSO = Quest,
+                title = "Quest node",
+                Function = functionName,
+                Guid = Guid.NewGuid().ToString()
+            };
+            tempDialogueNode.styleSheets.Add(Resources.Load<StyleSheet>("DialogeNode"));
+            var inputPort = GetPortInstance(tempDialogueNode, Direction.Input, Port.Capacity.Multi);
+            inputPort.portName = "Input";
+            tempDialogueNode.inputContainer.Add(inputPort);
+            var outputPort = GetPortInstance(tempDialogueNode, Direction.Output);
+            var textFieldOut = new TextField()
+            {
+                name = string.Empty,
+                value = outputPort.portName
+            };
+            textFieldOut.RegisterValueChangedCallback(evt => outputPort.portName = evt.newValue);
+            outputPort.contentContainer.Add(textFieldOut);
+            outputPort.contentContainer.Add(new Label("  "));
+            tempDialogueNode.outputContainer.Add(outputPort);
+
+            tempDialogueNode.SetPosition(new Rect(position,
+                DefaultNodeSize)); //To-Do: implement screen center instantiation positioning
+
+            var textField = new TextField("") {multiline = true};
+            textField.RegisterValueChangedCallback(evt => { tempDialogueNode.Function = evt.newValue; });
+            textField.SetValueWithoutNotify(tempDialogueNode.Function);
+            tempDialogueNode.mainContainer.Add(textField);
+
+
+            var gameobjectField = new ObjectField()
+            {
+                objectType = typeof(ScriptableObject)
+            };
+
+            gameobjectField.RegisterValueChangedCallback(evt =>
+            {
+                tempDialogueNode.QuestSO = evt.newValue as ScriptableObject;
+            });
+            
+            gameobjectField.SetValueWithoutNotify(Quest);
+            tempDialogueNode.contentContainer.Add(gameobjectField);
+            tempDialogueNode.RefreshExpandedState();
+            tempDialogueNode.RefreshPorts();
+            return tempDialogueNode;
+        }
+
         public DialogueNode CreateNode(string nodeName, Vector2 position)
         {
             var tempDialogueNode = new DialogueNode()
@@ -198,12 +252,10 @@ namespace Dialoge_Editor.Editor.Graph
             tempDialogueNode.SetPosition(new Rect(position,
                 DefaultNodeSize)); //To-Do: implement screen center instantiation positioning
 
-            var textField = new TextField("") {multiline =  true};
-            textField.RegisterValueChangedCallback(evt =>
-            {
-                tempDialogueNode.DialogueText = evt.newValue;
-            });
+            var textField = new TextField("") {multiline = true};
+            textField.RegisterValueChangedCallback(evt => { tempDialogueNode.DialogueText = evt.newValue; });
             textField.SetValueWithoutNotify(tempDialogueNode.DialogueText);
+            
             tempDialogueNode.mainContainer.Add(textField);
             var button = new Button(() => { AddChoicePort(tempDialogueNode); })
             {

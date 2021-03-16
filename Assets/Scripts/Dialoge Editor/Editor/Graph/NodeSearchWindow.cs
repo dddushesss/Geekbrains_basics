@@ -36,9 +36,13 @@ namespace Dialoge_Editor.Editor.Graph
                     level = 2, userData = new DialogueNode()
                 },
                 //добавление элемента в searchWindow
-                new SearchTreeEntry(new GUIContent("If Node", _indentationIcon))
+                new SearchTreeEntry(new GUIContent("Give quest", _indentationIcon))
                 {
-                    level = 2, userData = new IfNode()
+                    level = 2, userData = new GetQuestNode()
+                },
+                new SearchTreeEntry(new GUIContent("Check quest", _indentationIcon))
+                {
+                    level = 2, userData = new CheckQuestNode()
                 },
                 new SearchTreeEntry(new GUIContent("Comment Block",_indentationIcon))
                 {
@@ -59,8 +63,11 @@ namespace Dialoge_Editor.Editor.Graph
             switch (searchTreeEntry.userData)
             {
                 //вызов метода из search window
-                case IfNode ifNode:
-                    _graphView.CreateNewIfNode("GivePhrase",null, graphMousePosition);
+                case GetQuestNode ifNode:
+                    _graphView.CreateNewGetQuestNode("GivePhrase",null, graphMousePosition);
+                    return true;
+                case CheckQuestNode _:
+                    _graphView.CreateNewCheckQuestNode("GivePhrase", null,graphMousePosition);
                     return true;
                 case DialogueNode dialogueNode:
                     _graphView.CreateNewDialogueNode("Dialogue Node",graphMousePosition);

@@ -4056,7 +4056,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &597506404
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5129,6 +5129,7 @@ GameObject:
   - component: {fileID: 765789659}
   - component: {fileID: 765789661}
   - component: {fileID: 765789660}
+  - component: {fileID: 765789662}
   m_Layer: 5
   m_Name: SkillPoints
   m_TagString: Untagged
@@ -5194,6 +5195,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 765789658}
   m_CullTransparentMesh: 1
+--- !u!114 &765789662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765789658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63420f2423600314b8e7031b81089099, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SkillPointsValue: 0
 --- !u!1 &766041300
 GameObject:
   m_ObjectHideFlags: 0
@@ -6249,26 +6263,13 @@ GameObject:
   - component: {fileID: 915442222}
   - component: {fileID: 915442221}
   - component: {fileID: 915442220}
-  - component: {fileID: 915442219}
   m_Layer: 5
   m_Name: PlayerAtribute
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &915442219
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 915442218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fa9d8b49801b884a86d715254a85f7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_IsActive: 0
 --- !u!114 &915442220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7424,6 +7425,7 @@ GameObject:
   - component: {fileID: 1123307356}
   - component: {fileID: 1123307355}
   - component: {fileID: 1123307354}
+  - component: {fileID: 1123307357}
   m_Layer: 5
   m_Name: IconGroup (1)
   m_TagString: Untagged
@@ -7512,6 +7514,18 @@ MonoBehaviour:
   m_Spacing: {x: 300, y: 5}
   m_Constraint: 1
   m_ConstraintCount: 1
+--- !u!114 &1123307357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123307352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c0847caf0099054395be187fcebebe8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1142332027
 GameObject:
   m_ObjectHideFlags: 0

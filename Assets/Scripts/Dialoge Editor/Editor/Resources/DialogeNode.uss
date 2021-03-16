@@ -2,6 +2,10 @@ DialogueNode #title {
     background-color: rgba(29, 115, 57, 0.91);
 }
 
-IfNode #title {
+GetQuestNode #title {
+    background-color: rgb(32, 54, 91);
+}
+
+CheckQuestNode #title {
     background-color: rgb(16, 89, 219);
 }

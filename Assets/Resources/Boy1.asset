@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 78b3fd9154634ebdb8c8a48960b9a16a, type: 3}
-  m_Name: New Narrative
+  m_Name: Boy1
   m_EditorClassIdentifier: 
   NodeLinks:
   - BaseNodeGUID: 283833a8-465a-4bd1-a458-ba25fe268160
@@ -21,32 +21,28 @@ MonoBehaviour:
     TargetNodeGUID: a01433e1-adb6-416a-a8d4-ad68a30602b0
   - BaseNodeGUID: 4855f769-95ad-440e-b9a4-6fb2a3e87198
     PortName: "\u0414\u0430"
-    TargetNodeGUID: 81b0ac66-2c4f-4503-97d5-afe668198e35
+    TargetNodeGUID: 0ed37f16-7489-45cc-97c9-155a01a7696f
   - BaseNodeGUID: a01433e1-adb6-416a-a8d4-ad68a30602b0
-    PortName: "\u041B\u0430\u0434\u043D\u043E"
-    TargetNodeGUID: 86014216-799a-4b31-9e19-6c8680674272
-  - BaseNodeGUID: 81b0ac66-2c4f-4503-97d5-afe668198e35
-    PortName: Single
-    TargetNodeGUID: 86014216-799a-4b31-9e19-6c8680674272
+    PortName: Option 1
+    TargetNodeGUID: e9bda63d-0982-4665-9648-2dfeeb56ca81
   DialogueNodeData:
   - NodeGUID: 283833a8-465a-4bd1-a458-ba25fe268160
     DialogueText: ENTRYPOINT
     Position: {x: 100, y: 200}
   - NodeGUID: 4855f769-95ad-440e-b9a4-6fb2a3e87198
-    DialogueText: "\u0422\u044B \u043F\u0440\u0438\u043D\u0451\u0441 \u0437\u0435\u043B\u044C\u0435
-      \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u044F?"
-    Position: {x: 329, y: 190}
+    DialogueText: "\u0422\u044B \u0431\u0443\u0434\u0435\u0448\u044C \u0435\u0441\u0442\u044C?"
+    Position: {x: 316, y: 185}
   - NodeGUID: a01433e1-adb6-416a-a8d4-ad68a30602b0
-    DialogueText: "\u0422\u0430\u043A \u0438\u0434\u0438 \u0438 \u043D\u0430\u0439\u0434\u0438!"
-    Position: {x: 738, y: 109}
-  - NodeGUID: 86014216-799a-4b31-9e19-6c8680674272
-    DialogueText: "\u0421\u0432\u043E\u0431\u043E\u0434\u0435\u043D"
-    Position: {x: 1092, y: 214}
+    DialogueText: "\u0422\u0430\u043A \u043D\u0435 \u0435\u0448\u044C"
+    Position: {x: 813, y: 131}
+  - NodeGUID: 0ed37f16-7489-45cc-97c9-155a01a7696f
+    DialogueText: "\u0422\u0430\u043A \u0438\u0434\u0438 \u0438 \u043F\u043E\u0435\u0448\u044C"
+    Position: {x: 793, y: 287}
   IfDialogueNodeData: []
   CheckQuestNodeData:
-  - NodeGUID: 81b0ac66-2c4f-4503-97d5-afe668198e35
-    FunctionName: "\u041C\u043E\u043B\u043E\u0434\u0435\u0446!"
-    Quest: {fileID: 11400000, guid: 801c8e92d4d42ef4093e3bf16906f004, type: 2}
-    Position: {x: 742, y: 270}
+  - NodeGUID: e9bda63d-0982-4665-9648-2dfeeb56ca81
+    FunctionName: GivePhrase
+    Quest: {fileID: 0}
+    Position: {x: 1175, y: 220}
   ExposedProperties: []
   CommentBlockData: []

@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36889c38c2f04a6a82848b0e4e7773b7, type: 3}
   m_Name: Test
   m_EditorClassIdentifier: 
-  QuestText: "\u0412\u044B\u043F\u043E\u043B\u043D\u0438 \u0438 \u043C\u044B \u0432
-    \u0440\u0430\u0441\u0447\u0435\u0442\u0435"
+  QuestText: "\u041F\u0440\u0438\u043D\u0435\u0441\u0442\u0438 \u0437\u0435\u043B\u044C\u0435
+    \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u044F \u043A\u043E\u0440\u0447\u043C\u0430\u0440\u044E"
   ExpValue: 4
+  target: {fileID: 163998, guid: 8084703d30cc2204d910a3ffb54cf246, type: 3}
+  condition: {fileID: 11400000, guid: 94413798237df0e4f92b86d0d6f6fe16, type: 2}

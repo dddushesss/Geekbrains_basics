@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using _Scripts;
+using Dialoge_Editor.Editor.Nodes;
 using Dialoge_Editor.Runtime;
 using Scripts;
 using UnityEngine;
@@ -17,7 +19,8 @@ public class DialogeBegin : MonoBehaviour
     [SerializeField] private GameObject dialogeManager;
 
     private DialogueNodeData _data;
-    private IfNodeData _ifNodeData;
+    private GiveQuestNodeData _giveQuestNodeData;
+    private CheckQuestNodeData _checkQuestNodeData;
     private GameObject _dialogeCanvas;
     private GameObject _player;
     private Button[] _options;
@@ -48,6 +51,7 @@ public class DialogeBegin : MonoBehaviour
             option.gameObject.SetActive(false);
             option.onClick.RemoveAllListeners();
         }
+
         foreach (var choise in choises)
         {
             var quest = dialogAsset.IfDialogueNodeData.Find(x => x.NodeGUID.Equals(choise.TargetNodeGUID));
@@ -59,11 +63,10 @@ public class DialogeBegin : MonoBehaviour
             }
 
             _options[i].gameObject.SetActive(true);
-            _options[i].onClick.AddListener(()=>ContinueDialog(i1));
+            _options[i].onClick.AddListener(() => ContinueDialog(i1));
             _options[i++].GetComponentInChildren<Text>().text = choise.PortName;
         }
 
-        
 
         if (i == 0)
         {
@@ -82,14 +85,24 @@ public class DialogeBegin : MonoBehaviour
         if (choises.Count != 0)
         {
             _data = dialogAsset.DialogueNodeData.Find(x => x.NodeGUID == choises[choise].TargetNodeGUID);
+
+
             if (_data != null)
             {
                 ProceedDialoge();
             }
             else
             {
-                _ifNodeData = dialogAsset.IfDialogueNodeData.Find(x => x.NodeGUID == choises[choise].TargetNodeGUID);
-                GiveQuest();
+                _giveQuestNodeData =
+                    dialogAsset.IfDialogueNodeData.Find(x => x.NodeGUID == choises[choise].TargetNodeGUID);
+                if (_giveQuestNodeData != null)
+                    GiveQuest();
+                else
+                {
+                    _checkQuestNodeData =
+                        dialogAsset.CheckQuestNodeData.Find(x => x.NodeGUID == choises[choise].TargetNodeGUID);
+                    CheckQuest();
+                }
             }
         }
         else
@@ -98,22 +111,56 @@ public class DialogeBegin : MonoBehaviour
         }
     }
 
+    private void CheckQuest()
+    {
+        var checkQuest = _checkQuestNodeData.Quest as Quest;
+
+        for (int j = 1; j < _options.Length; j++)
+        {
+            _options[j].gameObject.SetActive(false);
+            _options[j].onClick.RemoveAllListeners();
+        }
+        
+        if (_player.GetComponent<Inventory>()._iteams.Contains(checkQuest.condition))
+        {
+            checkQuest.Complete();
+            _options[0].gameObject.SetActive(true);
+            _options[0].GetComponentInChildren<Text>().text = "Сдать квест";
+            _options[0].onClick.AddListener(() => ContinueDialog(0));
+            _dialogeCanvas.transform.Find("DialogeTextObj").GetComponentInChildren<Text>().text =
+                checkQuest.QuestText;
+        }
+        else
+        {
+            _options[0].gameObject.SetActive(true);
+            _options[0].GetComponentInChildren<Text>().text = "Далее";
+            _dialogeCanvas.transform.Find("DialogeTextObj").GetComponentInChildren<Text>().text = 
+                $"Не выполнены условия квеста! Вам нужно принести {checkQuest.condition.name}";
+        }
+        
+        var choise = dialogAsset.NodeLinks.Find(x => x.BaseNodeGUID.Equals(_checkQuestNodeData.NodeGUID));
+        _data = dialogAsset.DialogueNodeData.Find(x => x.NodeGUID.Equals(choise.TargetNodeGUID));
+    }
+
     private void GiveQuest()
     {
-        var quest = _ifNodeData.Quest as Quest;
+        var quest = _giveQuestNodeData.Quest as Quest;
 
         _player.GetComponent<QuestsList>().AddQuest(quest);
         for (int j = 1; j < _options.Length; j++)
         {
             _options[j].gameObject.SetActive(false);
+            _options[j].onClick.RemoveAllListeners();
         }
 
         _options[0].gameObject.SetActive(true);
         _options[0].GetComponentInChildren<Text>().text = "Получить квест";
+        _options[0].onClick.AddListener(() => ContinueDialog(0));
         _dialogeCanvas.transform.Find("DialogeTextObj").GetComponentInChildren<Text>().text =
-            _ifNodeData.FunctionName;
-        var choise = dialogAsset.NodeLinks.Find(x => x.BaseNodeGUID.Equals(_ifNodeData.NodeGUID));
+            _giveQuestNodeData.FunctionName;
+        var choise = dialogAsset.NodeLinks.Find(x => x.BaseNodeGUID.Equals(_giveQuestNodeData.NodeGUID));
         _data = dialogAsset.DialogueNodeData.Find(x => x.NodeGUID.Equals(choise.TargetNodeGUID));
+       
     }
 
     private void EndDialoge()

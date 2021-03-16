@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class PlayerAtributeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public Atribute Atribute;
+    public Atribute atribute;
     
     private void Start()
     {
@@ -15,16 +16,16 @@ public class PlayerAtributeUI : MonoBehaviour, IPointerEnterHandler, IPointerExi
         var skillPoints = parent.parent.parent.Find("SkillPoints").GetComponent<SkillPoints>();
         
         parent.Find("AtributeName").gameObject.GetComponent<Text>().text =
-            Atribute.ToString();
+            atribute.ToString();
         
         parent.Find("Count").gameObject.GetComponent<Text>().text =
-            Atribute.value.ToString();
+            atribute.value.ToString();
         
         parent.Find("Minus").gameObject.GetComponent<Button>().onClick.AddListener(() =>
         {
-            if (skillPoints.SkillPointsValue != 0 && Atribute.value >= 0)
+            if (skillPoints.SkillPointsValue != 0 && atribute.value >= 0)
             {
-                Atribute.ChangeAtributeValue(-1);
+                atribute.ChangeAtributeValue(-1);
                 skillPoints.ChangeSkillPointsValue(1);
                 UpdateValueText();
             }
@@ -33,9 +34,9 @@ public class PlayerAtributeUI : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
         parent.Find("Plus").gameObject.GetComponent<Button>().onClick.AddListener(() =>
         {
-            if (skillPoints.SkillPointsValue != 0 && Atribute.value < Atribute.MaxValue)
+            if (skillPoints.SkillPointsValue != 0 && atribute.value < atribute.MaxValue)
             {
-                Atribute.ChangeAtributeValue(1);
+                atribute.ChangeAtributeValue(1);
                 skillPoints.ChangeSkillPointsValue(-1);
                 UpdateValueText();
             }
@@ -46,7 +47,7 @@ public class PlayerAtributeUI : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Tooltip.ShowTooltip_Static(Atribute.GetDesctiption());
+        Tooltip.ShowTooltip_Static(atribute.GetDesctiption());
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -58,6 +59,6 @@ public class PlayerAtributeUI : MonoBehaviour, IPointerEnterHandler, IPointerExi
     {
         
         gameObject.transform.Find("Count").gameObject.GetComponent<Text>().text =
-            Atribute.value.ToString();
+            atribute.value.ToString();
     }
 }

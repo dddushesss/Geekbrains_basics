@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Dialoge_Editor.Runtime
 {
     [Serializable]
-    public class IfNodeData
+    public class CheckQuestNodeData
     {
         //добавление класса для контейнера
         public string NodeGUID;

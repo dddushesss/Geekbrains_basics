@@ -22,6 +22,18 @@ public class QuestsList : MonoBehaviour
         Instantiate(questPrefab, questCanvas.transform).GetComponentInChildren<QuestContainer>().Quest = quest;
     }
 
+    public void RemoveQuest(Quest quest)
+    {
+        quests.Remove(quest);
+        for (int i = 0; i < questCanvas.transform.childCount; i++)
+        {
+            if (questCanvas.transform.GetChild(i).GetComponent<QuestContainer>().Quest.Equals(quest))
+            {
+                Destroy(questCanvas.transform.GetChild(i).gameObject);
+            }
+        }
+    }
+    
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.J))
