@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 718a080e1425a5a44939d86d18ce21ad, type: 3}
-  m_Name: PlayerHealth
+  m_Name: SpiderHealth
   m_EditorClassIdentifier: 
   CharacterAtributes: {fileID: 0}
   value: 12

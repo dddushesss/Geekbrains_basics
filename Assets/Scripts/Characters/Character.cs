@@ -5,8 +5,5 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    public void Death()
-    {
-        Destroy(gameObject);
-    }
+    
 }

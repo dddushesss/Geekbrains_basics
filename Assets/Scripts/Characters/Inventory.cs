@@ -14,13 +14,22 @@ namespace _Scripts
 
         private void Start()
         {
-            _iteams = new List<Iteam>();
+            //_iteams = new List<Iteam>();
+        }
+
+        public void DropAll()
+        {
+            for (int i = 0; i < _iteams.Count; i++)
+            {
+                _iteams[i].Drop(this);
+            }
         }
 
         public void AddIteam(Iteam iteam)
         {
             _iteams.Add(iteam);
-            UpdateCanvas();
+            if (InventoryCanvas != null)
+                UpdateCanvas();
         }
 
         private void UpdateCanvas()
@@ -29,39 +38,42 @@ namespace _Scripts
             {
                 Destroy(InventoryCanvas.transform.GetChild(0).GetChild(i).gameObject);
             }
+
             foreach (var iteam in _iteams)
             {
-                
                 //iteam.transform.position = Vector3.zero;
                 iteam.CurInventory = this;
                 IconPrefab.GetComponent<IconIteam>()._iteam = iteam;
                 IconPrefab.GetComponent<Image>().sprite = iteam.Icon;
                 Instantiate(IconPrefab, InventoryCanvas.transform.GetChild(0));
-                
             }
         }
 
         public void RemoveIteam(Iteam iteam)
         {
             _iteams.Remove(iteam);
-            UpdateCanvas();
+            if (InventoryCanvas != null)
+                UpdateCanvas();
         }
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.I) 
-                && (!InventoryCanvas.transform.GetChild(0).gameObject.activeSelf))
+            if (InventoryCanvas != null)
             {
-                gameObject.GetComponent<PlayerMovement>().enabled = false;
-                InventoryCanvas.transform.GetChild(0).gameObject.SetActive(true);
-            }
+                if (Input.GetKeyDown(KeyCode.I)
+                    && (!InventoryCanvas.transform.GetChild(0).gameObject.activeSelf))
+                {
+                    gameObject.GetComponent<PlayerMovement>().enabled = false;
+                    InventoryCanvas.transform.GetChild(0).gameObject.SetActive(true);
+                }
 
-            else if (InventoryCanvas.transform.GetChild(0).gameObject.activeSelf 
-                     && (Input.GetKeyDown(KeyCode.I) 
-                         || Input.GetKeyDown(KeyCode.Escape)))
-            {
-                gameObject.GetComponent<PlayerMovement>().enabled = true;
-                InventoryCanvas.transform.GetChild(0).gameObject.SetActive(false);
+                else if (InventoryCanvas.transform.GetChild(0).gameObject.activeSelf
+                         && (Input.GetKeyDown(KeyCode.I)
+                             || Input.GetKeyDown(KeyCode.Escape)))
+                {
+                    gameObject.GetComponent<PlayerMovement>().enabled = true;
+                    InventoryCanvas.transform.GetChild(0).gameObject.SetActive(false);
+                }
             }
         }
     }

@@ -15,6 +15,11 @@ public class Atributes : MonoBehaviour
     public GameObject atributeUIPrefab;
     public GameObject atributeUICanvas;
 
+    public override string ToString()
+    {
+        return "Игрок";
+    }
+
     private void Start()
     {
         foreach (var atribute in PlayerAtributes)
@@ -26,6 +31,7 @@ public class Atributes : MonoBehaviour
         atributeUICanvas.transform.GetChild(0).GetChild(1).GetComponent<SkillPoints>().ChangeSkillPointsValue(StartSkillPoints);
         CurentHealth = PlayerAtributes.Find(x => x is HealthAtribute).value;
         atributeUICanvas.SetActive(false);
+        
     }
 
     public int Damage()
@@ -42,7 +48,12 @@ public class Atributes : MonoBehaviour
         return 0;
     }
 
-    public void ChangeHealth(int count)
+    private void Death()
+    {
+        Destroy(gameObject);
+    }
+    
+    public bool ChangeHealth(int count)
     {
         int MaxHealth = PlayerAtributes.Find(x => x is HealthAtribute).value;
         if (CurentHealth + count > MaxHealth)
@@ -51,12 +62,15 @@ public class Atributes : MonoBehaviour
         }
         else if (CurentHealth + count <= 0)
         {
-            gameObject.GetComponent<Character>().Death();
+            Death();
+            return true;
         }
         else
         {
             CurentHealth += count;
         }
+
+        return false;
     }
     
 
