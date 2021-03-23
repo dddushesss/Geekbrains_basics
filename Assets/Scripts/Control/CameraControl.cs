@@ -5,17 +5,6 @@ using UnityEngine;
 
 public class CameraControl : MonoBehaviour
 {
-    public enum InversionX
-    {
-        Disabled = 0,
-        Enabled = 1
-    };
-
-    public enum InversionY
-    {
-        Disabled = 0,
-        Enabled = 1
-    };
 
     public enum Smooth
     {

@@ -4,35 +4,35 @@ using System.Collections.Generic;
 using _Scripts;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 public class Enemy : MonoBehaviour
 {
-    public List<Atribute> Atributes;
-    public float DistanceToFight = 2f;
-    public GameObject FightCanvas;
-    public string Name;
-    [NonSerialized]
-    public int CurentHealth;
+    public List<Atribute> atributes;
+    public float distanceToFight = 2f;
+    public GameObject fightCanvas;
+    public string name;
+    private int CurentHealth;
     private bool _isTrigered;
     private GameObject _target;
     private NavMeshAgent _navMeshAgent;
     
     private void Start()
     {
-        CurentHealth = Atributes.Find(x => x is HealthAtribute).value;
+        CurentHealth = atributes.Find(x => x is HealthAtribute).value;
         _navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
     }
 
     public override string ToString()
     {
-        return Name;
+        return name;
     }
 
     public int Damage()
     {
-        var Strength = Atributes.Find(x => x is StrengthAtribute);
-        var Luck = Atributes.Find(x => x is LuckAtribute);
-        var Agility = Atributes.Find(x => x is AgilityAtribute);
+        var Strength = atributes.Find(x => x is StrengthAtribute);
+        var Luck = atributes.Find(x => x is LuckAtribute);
+        var Agility = atributes.Find(x => x is AgilityAtribute);
 
         if (Agility.ThrowCube() + Luck.ThrowCube() - 7 >= 0)
         {
@@ -44,7 +44,7 @@ public class Enemy : MonoBehaviour
 
     public bool ChangeHealth(int count)
     {
-        int MaxHealth = Atributes.Find(x => x is HealthAtribute).value;
+        int MaxHealth = atributes.Find(x => x is HealthAtribute).value;
         if (CurentHealth + count > MaxHealth)
         {
             CurentHealth = MaxHealth;
@@ -90,13 +90,13 @@ public class Enemy : MonoBehaviour
         if (_isTrigered)
         {
             _navMeshAgent.SetDestination(_target.transform.position);
-            if (_isTrigered && Vector3.Distance(this.transform.position, _target.transform.position) <= DistanceToFight)
+            if (_isTrigered && Vector3.Distance(this.transform.position, _target.transform.position) <= distanceToFight)
             {
                 _isTrigered = false;
                 GetComponent<WaypointPatrol>().enabled = false;
                 _navMeshAgent.SetDestination(transform.position);
-                FightCanvas.SetActive(true);
-                FightCanvas.GetComponent<Fight>().BeginFight(_target, gameObject);
+                fightCanvas.SetActive(true);
+                fightCanvas.GetComponent<Fight>().BeginFight(_target, gameObject);
             }
         }
     }

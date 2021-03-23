@@ -8,7 +8,9 @@ using UnityEngine.UI;
 
 public class Fight : MonoBehaviour
 {
-    public Text FightText;
+    [SerializeField]
+    private Text _fightText;
+    [SerializeField] private Button _nextTurn;
     private GameObject _player;
     private GameObject _enemy;
     private Atributes _playerAtributes;
@@ -27,17 +29,17 @@ public class Fight : MonoBehaviour
             var playerO = o.GetComponent<Atributes>();
             var enemyO = o1.GetComponent<Enemy>();
             return playerO.PlayerAtributes.Find(x => x is AgilityAtribute).ThrowCube() -
-                   enemyO.Atributes.Find(x => x is AgilityAtribute).ThrowCube();
+                   enemyO.atributes.Find(x => x is AgilityAtribute).ThrowCube();
         });
         
-        gameObject.GetComponentInChildren<Button>().onClick.AddListener(Turn);
+        Turn();
     }
 
     private void EndFight()
     {
         _order.Clear();
-        gameObject.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
-        gameObject.GetComponentInChildren<Button>().onClick.AddListener(() =>
+        _nextTurn.onClick.RemoveAllListeners();
+        _nextTurn.onClick.AddListener(() =>
         {
             gameObject.SetActive(false);
         });
@@ -46,6 +48,8 @@ public class Fight : MonoBehaviour
     }
     private void Turn()
     {
+        _nextTurn.onClick.RemoveAllListeners();
+        _nextTurn.onClick.AddListener(Turn);
         foreach (var character in _order)
         {
             if (character.GetComponent<PlayerMovement>() != null)
@@ -54,13 +58,13 @@ public class Fight : MonoBehaviour
                 var dmgStr = dmg == 0 ? " промахнулся по " : " нанёс " + dmg.ToString();
                 if (_enemyAtributes.ChangeHealth(-dmg))
                 {
-                    FightText.text += _playerAtributes +  dmgStr + _enemyAtributes + "\n" + _enemyAtributes + " повержен";
+                    _fightText.text += _playerAtributes +  dmgStr + _enemyAtributes + "\n" + _enemyAtributes + " повержен";
                     EndFight();
                     return;
                 }
                 else
                 {
-                    FightText.text += _playerAtributes + dmgStr + " " + _enemyAtributes + "\n";
+                    _fightText.text += _playerAtributes + dmgStr + " " + _enemyAtributes + "\n";
                 }
                 
             }
@@ -70,13 +74,13 @@ public class Fight : MonoBehaviour
                 var dmgStr = dmg == 0 ? " промахнулся по " : " нанёс " + dmg.ToString();
                 if(_playerAtributes.ChangeHealth(-dmg))
                 {
-                    FightText.text += _enemyAtributes +  dmgStr + " " + _playerAtributes + "\n" + _playerAtributes + " повержен";
+                    _fightText.text += _enemyAtributes +  dmgStr + " " + _playerAtributes + "\n" + _playerAtributes + " повержен";
                     EndFight();
                     return;
                 }
                 else
                 {
-                     FightText.text += _enemyAtributes +  dmgStr + " " + _playerAtributes + "\n";
+                     _fightText.text += _enemyAtributes +  dmgStr + " " + _playerAtributes + "\n";
                 }
                
             }
