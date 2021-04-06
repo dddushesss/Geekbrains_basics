@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b3fd9154634ebdb8c8a48960b9a16a, type: 3}
+  m_Name: BarMan
+  m_EditorClassIdentifier: 
+  NodeLinks:
+  - BaseNodeGUID: 4855f769-95ad-440e-b9a4-6fb2a3e87198
+    PortName: Next
+    TargetNodeGUID: 2c10596a-5899-4f98-9de3-b7eb4b8e3bae
+  - BaseNodeGUID: fda473bf-f5a3-4095-83c3-0585bce13a4e
+    PortName: "\u041D\u043E.."
+    TargetNodeGUID: 43cafa73-4c7c-47e1-959a-9f7bd317dfa2
+  - BaseNodeGUID: 2c10596a-5899-4f98-9de3-b7eb4b8e3bae
+    PortName: "\u041F\u043E \u043F\u043E\u0432\u043E\u0434\u0443 \u043A\u0432\u0435\u0441\u0442\u0430"
+    TargetNodeGUID: 43cafa73-4c7c-47e1-959a-9f7bd317dfa2
+  - BaseNodeGUID: 2c10596a-5899-4f98-9de3-b7eb4b8e3bae
+    PortName: "\u0415\u0441\u0442\u044C \u043F\u043E\u0435\u0441\u0442\u044C?"
+    TargetNodeGUID: fda473bf-f5a3-4095-83c3-0585bce13a4e
+  DialogueNodeData:
+  - NodeGUID: 4855f769-95ad-440e-b9a4-6fb2a3e87198
+    DialogueText: ENTRYPOINT
+    Position: {x: 100, y: 200}
+  - NodeGUID: fda473bf-f5a3-4095-83c3-0585bce13a4e
+    DialogueText: "\u041D\u0438\u0447\u0435\u043C \u043D\u0435 \u043C\u043E\u0433\u0443
+      \u043F\u043E\u043C\u043E\u0447\u044C"
+    Position: {x: 800, y: 292}
+  - NodeGUID: 43cafa73-4c7c-47e1-959a-9f7bd317dfa2
+    DialogueText: "\u0421\u0432\u043E\u0431\u043E\u0434\u0435\u043D"
+    Position: {x: 839, y: 86}
+  IfDialogueNodeData: []
+  CheckQuestNodeData:
+  - NodeGUID: 2c10596a-5899-4f98-9de3-b7eb4b8e3bae
+    FunctionName: 
+    Quest: {fileID: 0}
+    Position: {x: 413, y: 202}
+  ExposedProperties: []
+  CommentBlockData: []

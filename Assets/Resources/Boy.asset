@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b3fd9154634ebdb8c8a48960b9a16a, type: 3}
+  m_Name: Boy
+  m_EditorClassIdentifier: 
+  NodeLinks:
+  - BaseNodeGUID: 283833a8-465a-4bd1-a458-ba25fe268160
+    PortName: Next
+    TargetNodeGUID: 4855f769-95ad-440e-b9a4-6fb2a3e87198
+  - BaseNodeGUID: 4855f769-95ad-440e-b9a4-6fb2a3e87198
+    PortName: "\u0421\u043F\u0430\u0441\u0438\u0431\u043E"
+    TargetNodeGUID: 83b1e8e0-098b-43a6-9c7f-0f4e77c9f87d
+  - BaseNodeGUID: 4855f769-95ad-440e-b9a4-6fb2a3e87198
+    PortName: "\u0410 \u0433\u0434\u0435 \u0442\u0430\u0432\u0435\u0440\u043D\u0430?"
+    TargetNodeGUID: 904bcd24-5a86-4a85-9a49-147fdd753e85
+  - BaseNodeGUID: 904bcd24-5a86-4a85-9a49-147fdd753e85
+    PortName: "\u0421\u043F\u0430\u0441\u0438\u0431\u043E"
+    TargetNodeGUID: 83b1e8e0-098b-43a6-9c7f-0f4e77c9f87d
+  - BaseNodeGUID: 904bcd24-5a86-4a85-9a49-147fdd753e85
+    PortName: "\u0415\u0441\u0442\u044C \u043A\u0430\u043A\u043E\u0435-\u043D\u0438\u0431\u0443\u0434\u044C
+      \u0437\u0430\u0434\u0430\u043D\u0438\u0435?"
+    TargetNodeGUID: 6322f31d-27cb-4dad-8f64-1b4c3fd30cfd
+  - BaseNodeGUID: 6322f31d-27cb-4dad-8f64-1b4c3fd30cfd
+    PortName: 1
+    TargetNodeGUID: 83b1e8e0-098b-43a6-9c7f-0f4e77c9f87d
+  - BaseNodeGUID: 6322f31d-27cb-4dad-8f64-1b4c3fd30cfd
+    PortName: 2
+    TargetNodeGUID: 83b1e8e0-098b-43a6-9c7f-0f4e77c9f87d
+  DialogueNodeData:
+  - NodeGUID: 283833a8-465a-4bd1-a458-ba25fe268160
+    DialogueText: ENTRYPOINT
+    Position: {x: 100, y: 200}
+  - NodeGUID: 4855f769-95ad-440e-b9a4-6fb2a3e87198
+    DialogueText: "\u0417\u0430\u0439\u0434\u0438 \u0432 \u0442\u0430\u0432\u0435\u0440\u043D\u0443.
+      \u0422\u0430\u043C \u0442\u0435\u0431\u0435 \u0441\u043A\u0430\u0436\u0443\u0442\n\u0433\u0434\u0435
+      \u043F\u043E\u0435\u0441\u0442\u044C"
+    Position: {x: 327.33334, y: 172.66667}
+  - NodeGUID: 83b1e8e0-098b-43a6-9c7f-0f4e77c9f87d
+    DialogueText: "\u041E\u0431\u0440\u0430\u0449\u0430\u0439\u0441\u044F. \u041A\u0441\u0442\u0430\u0442\u0438,
+      \u0435\u0441\u043B\u0438 \u043F\u043E\u0434\u043E\u0439\u0442\u0438 \u043A
+      \u0431\u043E\u0447\u043A\u0430\u043C \u0437\u0430 \u043C\u043E\u0435\u0439
+      \u0441\u043F\u0438\u043D\u043E\u0439\n \u0438\u043B\u0438 \u0432\u043E\u043D
+      \u0442\u0435\u043C \u044F\u0449\u0438\u043A\u0430\u043C, \u0442\u043E \u043E\u043D
+      \u0432\u0437\u043E\u0440\u0432\u0443\u0442\u044C\u0441\u044F"
+    Position: {x: 1254, y: 368.66666}
+  - NodeGUID: 904bcd24-5a86-4a85-9a49-147fdd753e85
+    DialogueText: "\u0423 \u0442\u0435\u0431\u044F \u0437\u0430 \u0441\u043F\u0438\u043D\u043E\u0439"
+    Position: {x: 710.6667, y: 31.333334}
+  IfDialogueNodeData:
+  - NodeGUID: 6322f31d-27cb-4dad-8f64-1b4c3fd30cfd
+    FunctionName: GivePhrase
+    Quest: {fileID: 11400000, guid: 801c8e92d4d42ef4093e3bf16906f004, type: 2}
+    Position: {x: 1127.3334, y: -3.333334}
+  CheckQuestNodeData: []
+  ExposedProperties: []
+  CommentBlockData: []
