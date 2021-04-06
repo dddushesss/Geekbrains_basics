@@ -7,7 +7,6 @@ using Subtegral.DialogueSystem.DataContainers;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
 using UnityEngine.UIElements;
 
 namespace Dialoge_Editor.Editor
@@ -53,7 +52,8 @@ namespace Dialoge_Editor.Editor
                 if (loadedAsset is DialogueContainer container)
                 {
                     container.NodeLinks = dialogueContainerObject.NodeLinks;
-                    container.IfDialogueNodeData = dialogueContainerObject.IfDialogueNodeData; //тут приравнивание нового поля в контейнере
+                    container.IfDialogueNodeData =
+                        dialogueContainerObject.IfDialogueNodeData; //тут приравнивание нового поля в контейнере
                     container.CheckQuestNodeData = dialogueContainerObject.CheckQuestNodeData;
                     container.DialogueNodeData = dialogueContainerObject.DialogueNodeData;
                     container.ExposedProperties = dialogueContainerObject.ExposedProperties;
@@ -79,6 +79,7 @@ namespace Dialoge_Editor.Editor
                 });
             }
         }
+
         private void SaveCheckQuestNode(DialogueContainer dialogueContainerObject)
         {
             var dialogeNodes = Nodes.OfType<CheckQuestNode>().ToList();
@@ -87,13 +88,13 @@ namespace Dialoge_Editor.Editor
                 dialogueContainerObject.CheckQuestNodeData.Add(new CheckQuestNodeData
                 {
                     NodeGUID = node.Guid,
-                    FunctionName = node.Function,
+                    FunctionName = node.HasQuest,
                     Position = node.GetPosition().position,
                     Quest = node.QuestSO
                 });
             }
         }
-        
+
         private void SaveGiveQuestNode(DialogueContainer dialogueContainerObject)
         {
             var dialogeNodes = Nodes.OfType<GetQuestNode>().ToList();
@@ -108,7 +109,7 @@ namespace Dialoge_Editor.Editor
                 });
             }
         }
-        
+
         private bool SaveNodes(DialogueContainer dialogueContainerObject)
         {
             if (!Edges.Any()) return false;
@@ -124,7 +125,7 @@ namespace Dialoge_Editor.Editor
                         TargetNodeGUID = inputNode.Guid
                     });
             }
-            
+
             SaveDialogeNode(dialogueContainerObject);
             SaveGiveQuestNode(dialogueContainerObject);
             SaveCheckQuestNode(dialogueContainerObject);
@@ -187,10 +188,10 @@ namespace Dialoge_Editor.Editor
         /// <summary>
         /// Create All serialized nodes and assign their guid and dialogue text to them
         /// </summary>
-
         private void GenerateDialogeNodes()
         {
-            foreach (var perNode in _dialogueContainer.DialogueNodeData.Where(x => !x.DialogueText.Equals("ENTRYPOINT")))
+            foreach (var perNode in _dialogueContainer.DialogueNodeData.Where(x => !x.DialogueText.Equals("ENTRYPOINT"))
+            )
             {
                 var tempNode = _graphView.CreateNode(perNode.DialogueText, Vector2.zero);
                 tempNode.Guid = perNode.NodeGUID;
@@ -200,33 +201,36 @@ namespace Dialoge_Editor.Editor
                 nodePorts.ForEach(x => _graphView.AddChoicePort(tempNode, x.PortName));
             }
         }
-        
+
         //тут добавление в graphview
         private void GenerateGiveQuestNodes()
         {
-            foreach (var perNode in _dialogueContainer.IfDialogueNodeData.Where(x => !x.FunctionName.Equals("ENTRYPOINT")))
+            foreach (var perNode in _dialogueContainer.IfDialogueNodeData.Where(x =>
+                !x.FunctionName.Equals("ENTRYPOINT")))
             {
-                var tempNode = _graphView.CreateGetQuestNode(perNode.FunctionName, perNode.Quest, Vector2.zero);
+                var ports = _dialogueContainer.NodeLinks.Where(x => x.BaseNodeGUID.Equals(perNode.NodeGUID)).ToList();
+                var tempNode = _graphView.CreateGetQuestNode(perNode.FunctionName, perNode.Quest,
+                     Vector2.zero);
+                ports.ForEach(x => _graphView.CreatePortWhithTextField(tempNode, x.PortName));
                 tempNode.Guid = perNode.NodeGUID;
-                _graphView.AddElement(tempNode);
-                var nodePort = _dialogueContainer.NodeLinks.Find(x => x.BaseNodeGUID == perNode.NodeGUID);
-                var tempporty = tempNode.outputContainer.Q<Port>().portName;
-                nodePort.PortName = tempporty;
-
+                _graphView.AddElement(tempNode); 
+                
             }
         }
+
         private void GenerateCheckQuestNodes()
         {
-            foreach (var perNode in _dialogueContainer.CheckQuestNodeData.Where(x => !x.FunctionName.Equals("ENTRYPOINT")))
+            foreach (var perNode in _dialogueContainer.CheckQuestNodeData)
             {
                 var tempNode = _graphView.CreateCheckQuestNode(perNode.FunctionName, perNode.Quest, Vector2.zero);
+                var ports = _dialogueContainer.NodeLinks.Where(x => x.BaseNodeGUID.Equals(perNode.NodeGUID)).ToList();
+                ports.ForEach(x => _graphView.CreatePortWhithTextField(tempNode, x.PortName));
                 tempNode.Guid = perNode.NodeGUID;
                 _graphView.AddElement(tempNode);
             }
         }
-        
-        
-        
+
+
         private void GenerateNodes()
         {
             GenerateDialogeNodes();

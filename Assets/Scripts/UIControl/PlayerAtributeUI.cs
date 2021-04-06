@@ -15,6 +15,7 @@ public class PlayerAtributeUI : MonoBehaviour, IPointerEnterHandler, IPointerExi
         var parent = gameObject.transform;
         var skillPoints = parent.parent.parent.Find("SkillPoints").GetComponent<SkillPoints>();
         
+        
         parent.Find("AtributeName").gameObject.GetComponent<Text>().text =
             atribute.ToString();
         

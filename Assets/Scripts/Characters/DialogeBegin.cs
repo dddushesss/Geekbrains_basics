@@ -114,32 +114,49 @@ public class DialogeBegin : MonoBehaviour
     private void CheckQuest()
     {
         var checkQuest = _checkQuestNodeData.Quest as Quest;
-
-        for (int j = 1; j < _options.Length; j++)
+        var choises = dialogAsset.NodeLinks.FindAll(x => x.BaseNodeGUID == _checkQuestNodeData.NodeGUID);
+        if (_player.GetComponent<QuestsList>().quests.Contains(checkQuest))
         {
-            _options[j].gameObject.SetActive(false);
-            _options[j].onClick.RemoveAllListeners();
-        }
+            for (int j = 1; j < _options.Length; j++)
+            {
+                _options[j].gameObject.SetActive(false);
+                _options[j].onClick.RemoveAllListeners();
+            }
+            _options[1].gameObject.SetActive(true);
+            _options[1].GetComponentInChildren<Text>().text = choises[1].PortName;
+            _options[1].onClick.AddListener(() => ContinueDialog(1));
+            if (_player.GetComponent<Inventory>()._iteams.Contains(checkQuest.condition))
+            {
+                checkQuest.Complete();
+                _options[0].gameObject.SetActive(true);
+                _options[0].GetComponentInChildren<Text>().text = choises[0].PortName;
+                _options[0].onClick.AddListener(() => ContinueDialog(0));
+                _dialogeCanvas.transform.Find("DialogeTextObj").GetComponentInChildren<Text>().text =
+                    checkQuest.QuestText;
+            }
+            
+            else
+            {
+                
+                _dialogeCanvas.transform.Find("DialogeTextObj").GetComponentInChildren<Text>().text = 
+                    $"Не выполнены условия квеста! Вам нужно принести {checkQuest.condition.name}";
+            }
         
-        if (_player.GetComponent<Inventory>()._iteams.Contains(checkQuest.condition))
-        {
-            checkQuest.Complete();
-            _options[0].gameObject.SetActive(true);
-            _options[0].GetComponentInChildren<Text>().text = "Сдать квест";
-            _options[0].onClick.AddListener(() => ContinueDialog(0));
-            _dialogeCanvas.transform.Find("DialogeTextObj").GetComponentInChildren<Text>().text =
-                checkQuest.QuestText;
+            var choise = dialogAsset.NodeLinks.Find(x => x.BaseNodeGUID.Equals(_checkQuestNodeData.NodeGUID));
+            _data = dialogAsset.DialogueNodeData.Find(x => x.NodeGUID.Equals(choise.TargetNodeGUID));
         }
         else
         {
-            _options[0].gameObject.SetActive(true);
-            _options[0].GetComponentInChildren<Text>().text = "Далее";
-            _dialogeCanvas.transform.Find("DialogeTextObj").GetComponentInChildren<Text>().text = 
-                $"Не выполнены условия квеста! Вам нужно принести {checkQuest.condition.name}";
+            for (int j = 1; j < _options.Length; j++)
+            {
+                _options[j].gameObject.SetActive(false);
+                _options[j].onClick.RemoveAllListeners();
+            }
+            _options[1].gameObject.SetActive(true);
+            _options[1].GetComponentInChildren<Text>().text = choises[1].PortName;
+            _options[1].onClick.AddListener(() => ContinueDialog(1));
         }
         
-        var choise = dialogAsset.NodeLinks.Find(x => x.BaseNodeGUID.Equals(_checkQuestNodeData.NodeGUID));
-        _data = dialogAsset.DialogueNodeData.Find(x => x.NodeGUID.Equals(choise.TargetNodeGUID));
     }
 
     private void GiveQuest()

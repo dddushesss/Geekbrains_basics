@@ -9,9 +9,11 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private Camera _mainCamera;
 
-    public NavMeshAgent _navMeshAgent;
+    [SerializeField] private NavMeshAgent _navMeshAgent;
+    [SerializeField] private GameObject _mainMenu;
     private Animator _animator;
     public GameObject Tutorial;
+    
 
     private void Start()
     {
@@ -39,6 +41,10 @@ public class PlayerMovement : MonoBehaviour
         if (_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
         {
             _animator.SetBool("IsWalking", false);
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            _mainMenu.SetActive(!_mainMenu.activeSelf);
         }
         
     }

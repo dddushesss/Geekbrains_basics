@@ -20,6 +20,8 @@ public class Explosion : MonoBehaviour
             if (rigidbody != null)
             {
                 rigidbody.AddExplosionForce(Force, _explosive.transform.position, Radius);
+                _explosive.GetComponent<ParticleSystem>().Play();
+                _explosive.GetComponent<AudioSource>().Play();
             }
         }
     }

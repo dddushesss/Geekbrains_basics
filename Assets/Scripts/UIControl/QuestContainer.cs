@@ -6,7 +6,7 @@ public class QuestContainer : MonoBehaviour
 {
     public Quest Quest;
 
-    private void Start()
+    private void Awake()
     {
         GetComponentInChildren<Text>().text = $"{Quest.QuestText} - Опыта: {Quest.ExpValue}";
     }

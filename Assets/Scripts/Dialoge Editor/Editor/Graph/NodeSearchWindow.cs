@@ -7,24 +7,24 @@ using UnityEngine.UIElements;
 
 namespace Dialoge_Editor.Editor.Graph
 {
-    public class NodeSearchWindow : ScriptableObject,ISearchWindowProvider
+    public class NodeSearchWindow : ScriptableObject, ISearchWindowProvider
     {
         private EditorWindow _window;
         private StoryGraphView _graphView;
 
         private Texture2D _indentationIcon;
-        
-        public void Configure(EditorWindow window,StoryGraphView graphView)
+
+        public void Configure(EditorWindow window, StoryGraphView graphView)
         {
             _window = window;
             _graphView = graphView;
-            
+
             //Transparent 1px indentation icon as a hack
-            _indentationIcon = new Texture2D(1,1);
-            _indentationIcon.SetPixel(0,0,new Color(0,0,0,0));
+            _indentationIcon = new Texture2D(1, 1);
+            _indentationIcon.SetPixel(0, 0, new Color(0, 0, 0, 0));
             _indentationIcon.Apply();
         }
-        
+
         public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
         {
             var tree = new List<SearchTreeEntry>
@@ -44,7 +44,7 @@ namespace Dialoge_Editor.Editor.Graph
                 {
                     level = 2, userData = new CheckQuestNode()
                 },
-                new SearchTreeEntry(new GUIContent("Comment Block",_indentationIcon))
+                new SearchTreeEntry(new GUIContent("Comment Block", _indentationIcon))
                 {
                     level = 1,
                     userData = new Group()
@@ -64,19 +64,20 @@ namespace Dialoge_Editor.Editor.Graph
             {
                 //вызов метода из search window
                 case GetQuestNode ifNode:
-                    _graphView.CreateNewGetQuestNode("GivePhrase",null, graphMousePosition);
+                    _graphView.CreateNewGetQuestNode("GivePhrase", null, graphMousePosition);
                     return true;
                 case CheckQuestNode _:
-                    _graphView.CreateNewCheckQuestNode("GivePhrase", null,graphMousePosition);
+                    _graphView.CreateNewCheckQuestNode("HasQuest", null, graphMousePosition);
                     return true;
                 case DialogueNode dialogueNode:
-                    _graphView.CreateNewDialogueNode("Dialogue Node",graphMousePosition);
+                    _graphView.CreateNewDialogueNode("Dialogue Node", graphMousePosition);
                     return true;
                 case Group group:
                     var rect = new Rect(graphMousePosition, _graphView.DefaultCommentBlockSize);
-                     _graphView.CreateCommentBlock(rect);
+                    _graphView.CreateCommentBlock(rect);
                     return true;
             }
+
             return false;
         }
     }

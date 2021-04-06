@@ -8,7 +8,9 @@ namespace Scripts
         public string QuestText;
         public int ExpValue;
         public Iteam condition;
-
+        public bool IsDone;
+        public string doneText;
+        
         public override bool Equals(object other)
         {
             var quest = (Quest) other;

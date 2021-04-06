@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Scripts;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -19,6 +20,13 @@ public class QuestsList : MonoBehaviour
     public void AddQuest(Quest quest)
     {
         quests.Add(quest);
+        var newStr = "";
+        foreach (var c in quest.QuestText)
+        {
+            newStr += "" + c + '\u0336';
+        }
+
+        quest.doneText = newStr;
         Instantiate(questPrefab, questCanvas.transform).GetComponentInChildren<QuestContainer>().Quest = quest;
     }
 
@@ -29,11 +37,13 @@ public class QuestsList : MonoBehaviour
         {
             if (questCanvas.transform.GetChild(i).GetComponent<QuestContainer>().Quest.Equals(quest))
             {
-                Destroy(questCanvas.transform.GetChild(i).gameObject);
+                questCanvas.transform.GetChild(i).GetComponent<QuestContainer>().Quest.IsDone = true;
+                
+                questCanvas.transform.GetChild(i).GetComponentInChildren<Text>().text = quest.doneText;
             }
         }
     }
-    
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.J))

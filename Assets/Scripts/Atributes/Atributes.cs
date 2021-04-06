@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class Atributes : MonoBehaviour
 {
@@ -14,6 +12,9 @@ public class Atributes : MonoBehaviour
     public int StartSkillPoints;
     public GameObject atributeUIPrefab;
     public GameObject atributeUICanvas;
+    
+    public Image Bar;
+    private Text healthText;
 
     public override string ToString()
     {
@@ -22,6 +23,7 @@ public class Atributes : MonoBehaviour
 
     private void Start()
     {
+       
         foreach (var atribute in PlayerAtributes)
         {
             var prefab = Instantiate(atributeUIPrefab, atributeUICanvas.transform.GetChild(0));
@@ -31,6 +33,11 @@ public class Atributes : MonoBehaviour
         atributeUICanvas.transform.GetChild(0).GetChild(1).GetComponent<SkillPoints>().ChangeSkillPointsValue(StartSkillPoints);
         CurentHealth = PlayerAtributes.Find(x => x is HealthAtribute).value;
         atributeUICanvas.SetActive(false);
+        healthText = Bar.GetComponentInChildren<Text>();
+        Bar.fillAmount = (float)(CurentHealth) /
+                         (float)PlayerAtributes.Find(x => x is HealthAtribute).value;
+        healthText.text = CurentHealth + "/" +
+                          PlayerAtributes.Find(x => x is HealthAtribute).value;
         
     }
 
@@ -69,7 +76,12 @@ public class Atributes : MonoBehaviour
         {
             CurentHealth += count;
         }
-
+        
+        Bar.fillAmount = (float)(CurentHealth) /
+                         (float)PlayerAtributes.Find(x => x is HealthAtribute).value;
+        healthText.text = CurentHealth + "/" +
+                          PlayerAtributes.Find(x => x is HealthAtribute).value;
+        
         return false;
     }
     

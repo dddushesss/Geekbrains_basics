@@ -4,7 +4,8 @@ namespace Dialoge_Editor.Editor.Nodes
 {
     public class CheckQuestNode : BaseNode
     {
-        public string Function;
+        public string HasQuest;
+
 
         public ScriptableObject QuestSO;
         //добавление класса, описывающий ноду. 

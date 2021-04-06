@@ -135,15 +135,22 @@ namespace Dialoge_Editor.Editor.Graph
         //функция для добавление ноды на graphView и описание интерфейса ноды
         public void CreateNewGetQuestNode(string functionName, ScriptableObject Quest, Vector2 position)
         {
-            AddElement(CreateGetQuestNode(functionName, Quest, position));
+            var GetQuestNode = CreateGetQuestNode(functionName, Quest, position);
+            CreatePortWhithTextField(GetQuestNode);
+            CreatePortWhithTextField(GetQuestNode);
+            AddElement(GetQuestNode);
         }
 
-        public void CreateNewCheckQuestNode(string functionName, ScriptableObject Quest, Vector2 position)
+        public void CreateNewCheckQuestNode(string haveQuest, ScriptableObject Quest, Vector2 position)
         {
-            AddElement(CreateCheckQuestNode(functionName, Quest, position));
+            var CheckQuestNode = CreateCheckQuestNode(haveQuest, Quest, position);
+            CreatePortWhithTextField(CheckQuestNode);
+            CreatePortWhithTextField(CheckQuestNode);
+            AddElement(CheckQuestNode);
         }
 
-        public GetQuestNode CreateGetQuestNode(string functionName, ScriptableObject Quest, Vector2 position)
+        public GetQuestNode CreateGetQuestNode(string functionName, ScriptableObject Quest,
+            Vector2 position)
         {
             var tempDialogueNode = new GetQuestNode()
             {
@@ -156,9 +163,6 @@ namespace Dialoge_Editor.Editor.Graph
             var inputPort = GetPortInstance(tempDialogueNode, Direction.Input, Port.Capacity.Multi);
             inputPort.portName = "Input";
             tempDialogueNode.inputContainer.Add(inputPort);
-            var outputPort = GetPortInstance(tempDialogueNode, Direction.Output);
-            outputPort.portName = "Output";
-            tempDialogueNode.outputContainer.Add(outputPort);
 
             tempDialogueNode.SetPosition(new Rect(position,
                 DefaultNodeSize)); //To-Do: implement screen center instantiation positioning
@@ -185,37 +189,40 @@ namespace Dialoge_Editor.Editor.Graph
             return tempDialogueNode;
         }
 
-        public CheckQuestNode CreateCheckQuestNode(string functionName, ScriptableObject Quest, Vector2 position)
+        public void CreatePortWhithTextField(Node tempNode, string overrideText = "")
+        {
+            var questPort = GetPortInstance(tempNode, Direction.Output);
+            questPort.portName = overrideText;
+            var portLabel = questPort.contentContainer.Q<Label>("type");
+            questPort.contentContainer.Remove(portLabel);
+            questPort.contentContainer.Add(new Label(" "));
+            var questPortTextField = new TextField()
+            {
+                name = string.Empty,
+                value = questPort.portName
+            };
+            questPortTextField.RegisterValueChangedCallback(evt => questPort.portName = evt.newValue);
+            questPort.contentContainer.Add(questPortTextField);
+            tempNode.outputContainer.Add(questPort);
+            tempNode.RefreshPorts();
+            tempNode.RefreshExpandedState();
+        }
+
+        public CheckQuestNode CreateCheckQuestNode(string hasQuest, ScriptableObject Quest, Vector2 position)
         {
             var tempDialogueNode = new CheckQuestNode()
             {
                 QuestSO = Quest,
                 title = "Quest node",
-                Function = functionName,
                 Guid = Guid.NewGuid().ToString()
             };
             tempDialogueNode.styleSheets.Add(Resources.Load<StyleSheet>("DialogeNode"));
             var inputPort = GetPortInstance(tempDialogueNode, Direction.Input, Port.Capacity.Multi);
             inputPort.portName = "Input";
             tempDialogueNode.inputContainer.Add(inputPort);
-            var outputPort = GetPortInstance(tempDialogueNode, Direction.Output);
-            var textFieldOut = new TextField()
-            {
-                name = string.Empty,
-                value = outputPort.portName
-            };
-            textFieldOut.RegisterValueChangedCallback(evt => outputPort.portName = evt.newValue);
-            outputPort.contentContainer.Add(textFieldOut);
-            outputPort.contentContainer.Add(new Label("  "));
-            tempDialogueNode.outputContainer.Add(outputPort);
-
+            
             tempDialogueNode.SetPosition(new Rect(position,
-                DefaultNodeSize)); //To-Do: implement screen center instantiation positioning
-
-            var textField = new TextField("") {multiline = true};
-            textField.RegisterValueChangedCallback(evt => { tempDialogueNode.Function = evt.newValue; });
-            textField.SetValueWithoutNotify(tempDialogueNode.Function);
-            tempDialogueNode.mainContainer.Add(textField);
+                DefaultNodeSize));
 
 
             var gameobjectField = new ObjectField()
@@ -227,7 +234,7 @@ namespace Dialoge_Editor.Editor.Graph
             {
                 tempDialogueNode.QuestSO = evt.newValue as ScriptableObject;
             });
-            
+
             gameobjectField.SetValueWithoutNotify(Quest);
             tempDialogueNode.contentContainer.Add(gameobjectField);
             tempDialogueNode.RefreshExpandedState();
@@ -255,7 +262,38 @@ namespace Dialoge_Editor.Editor.Graph
             var textField = new TextField("") {multiline = true};
             textField.RegisterValueChangedCallback(evt => { tempDialogueNode.DialogueText = evt.newValue; });
             textField.SetValueWithoutNotify(tempDialogueNode.DialogueText);
-            
+
+            tempDialogueNode.mainContainer.Add(textField);
+            var button = new Button(() => { AddChoicePort(tempDialogueNode); })
+            {
+                text = "Add Choice"
+            };
+            tempDialogueNode.titleButtonContainer.Add(button);
+            return tempDialogueNode;
+        }
+
+
+        public IfNode CreateIfNode(string functionName, Vector2 position)
+        {
+            var tempDialogueNode = new IfNode()
+            {
+                title = "If Node",
+                FunctionName = functionName,
+                Guid = Guid.NewGuid().ToString()
+            };
+            tempDialogueNode.styleSheets.Add(Resources.Load<StyleSheet>("DialogeNode"));
+            var inputPort = GetPortInstance(tempDialogueNode, Direction.Input, Port.Capacity.Multi);
+            inputPort.portName = "Input";
+            tempDialogueNode.inputContainer.Add(inputPort);
+            tempDialogueNode.RefreshExpandedState();
+            tempDialogueNode.RefreshPorts();
+            tempDialogueNode.SetPosition(new Rect(position,
+                DefaultNodeSize)); //To-Do: implement screen center instantiation positioning
+
+            var textField = new TextField("") {multiline = true};
+            textField.RegisterValueChangedCallback(evt => { tempDialogueNode.FunctionName = evt.newValue; });
+            textField.SetValueWithoutNotify(tempDialogueNode.FunctionName);
+
             tempDialogueNode.mainContainer.Add(textField);
             var button = new Button(() => { AddChoicePort(tempDialogueNode); })
             {
